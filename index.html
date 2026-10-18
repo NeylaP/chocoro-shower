@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chocoro Shower · Invitación</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Estás invitado(a) a nuestro Chocoro Shower">
+<meta property="og:description" content="Estrenamos casa. Confirma tu asistencia y elige tu chócoro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 11l9-7 9 7v10H3z' fill='%2346618f'/%3E%3C/svg%3E">
+<style>
+  .page { max-width: 440px; margin: 0 auto; min-height: 100vh; min-height: 100dvh; position: relative; overflow: clip; display: flex; flex-direction: column; background: var(--bg); }
+  @media (min-width: 520px) {
+    body { background: #ebe7e0; padding: 24px 0; }
+    .page { min-height: calc(100vh - 48px); border-radius: 28px; box-shadow: 0 20px 50px rgba(30,45,77,.12); }
+  }
+  .blob-l { position: absolute; left: -40px; bottom: -40px; width: 150px; pointer-events: none; }
+  .blob-r { position: absolute; right: 0; bottom: 0; width: 110px; pointer-events: none; }
+  .view { position: relative; display: flex; flex-direction: column; flex: 1; }
+  .hero { padding: 34px 24px 0; display: flex; flex-direction: column; gap: 14px; }
+  .hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  h1.title { margin: 0; font-weight: 800; font-size: clamp(42px, 13vw, 52px); line-height: 1; letter-spacing: -1.5px; }
+  .lead { margin: 0; font-size: 17px; line-height: 1.45; color: var(--body); }
+  .event { margin: 18px 16px 0; padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .event-row { display: flex; gap: 14px; align-items: center; }
+  .date-tile { width: 70px; height: 76px; flex-shrink: 0; border-radius: 14px; background: var(--accent-soft); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+  .date-tile b { font-size: 20px; font-weight: 700; }
+  .date-tile span { font-size: 11px; font-weight: 600; letter-spacing: 1px; color: var(--body); }
+  .vline { align-self: stretch; width: 1px; background: var(--line); }
+  .meta { display: flex; flex-direction: column; gap: 12px; min-width: 0; font-size: 15px; }
+  .meta div { display: flex; gap: 10px; align-items: flex-start; }
+  .meta svg { flex-shrink: 0; margin-top: 1px; }
+  .hosts { border-top: 1px solid var(--line); padding-top: 12px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+  .note { margin: 18px 22px 0; display: flex; gap: 14px; align-items: flex-start; }
+  .note .icon-circle { width: 48px; height: 48px; background: var(--sage); color: var(--ink); }
+  .note b { display: block; font-size: 17px; margin-bottom: 4px; }
+  .note p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--body); }
+  .actions { position: relative; margin-top: auto; padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 6px; }
+  .actions small { font-size: 13px; color: var(--muted); text-align: center; }
+  .status-box { padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .status-box b { font-size: 17px; }
+  .status-box p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--body); }
+  .chip { background: var(--accent-soft); border-radius: 999px; padding: 5px 12px; font-size: 15px; font-weight: 700; }
+
+  .topbar { padding: 12px 14px 4px; }
+  .round-btn { width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; box-shadow: 0 4px 12px rgba(30,45,77,.08); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink); }
+  .choose-head { padding: 8px 24px 0; display: flex; flex-direction: column; gap: 8px; }
+  .choose-head h2 { margin: 0; font-weight: 800; font-size: 32px; letter-spacing: -1px; }
+  .choose-head p { margin: 0; font-size: 15px; line-height: 1.4; color: var(--body); }
+  .list-head { display: flex; justify-content: space-between; padding: 18px 20px 10px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 16px 24px; }
+  .tile { position: relative; min-height: 116px; text-align: left; border-radius: 20px; border: 2px solid #fff; background: #fff; box-shadow: 0 6px 16px rgba(30,45,77,.06); padding: 14px; display: flex; flex-direction: column; gap: 8px; cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+  .tile b { font-size: 15px; line-height: 1.25; }
+  .tile small { font-size: 12px; font-weight: 600; color: var(--muted); }
+  .tile[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 8px 20px rgba(70,97,143,.2); }
+  .tile[aria-pressed="true"] small { color: var(--accent); }
+  .tile:disabled { background: #f0eee9; border-color: #eceae5; box-shadow: none; cursor: not-allowed; color: #7c7a75; }
+  .tile:disabled .icon-circle { background: #e4e1db; color: #8b8780; }
+  .tile:disabled small { color: #7c7a75; }
+  .tile .check { position: absolute; top: 12px; right: 12px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; display: none; align-items: center; justify-content: center; }
+  .tile[aria-pressed="true"] .check { display: flex; }
+  .footer { position: sticky; bottom: 0; background: #fff; border-radius: 26px 26px 0 0; box-shadow: 0 -6px 20px rgba(30,45,77,.07); padding: 14px 20px 20px; display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  .footer .row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
+  .done { padding: 20px 16px 28px; display: flex; flex-direction: column; gap: 16px; }
+  .done .card { padding: 30px 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .done .big-check { width: 76px; height: 76px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; }
+  .mine { width: 100%; background: var(--peach); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+  .mine b { font-size: 21px; font-weight: 800; }
+  .center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 40px 28px; text-align: center; }
+</style>
+</head>
+<body>
+<div id="demo" class="demo-banner" hidden></div>
+<main class="page" id="app" aria-live="polite">
+  <svg class="blob-l" aria-hidden="true" viewBox="0 0 150 150"><path d="M10 30 C50 10 80 50 110 70 C140 90 150 130 120 150 L0 150 L0 40 Z" fill="#dfe6f1"/></svg>
+  <svg class="blob-r" aria-hidden="true" viewBox="0 0 110 130"><path d="M110 0 C70 10 40 40 30 80 C25 105 30 120 40 130 L110 130 Z" fill="#e3ebe4"/><path d="M62 128 C66 104 74 82 92 62" fill="none" stroke="#8fa596" stroke-width="1.6" stroke-linecap="round"/><path d="M92 62 C78 66 68 82 66 100 C82 96 92 80 92 62 Z" fill="none" stroke="#8fa596" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <div class="view"><div class="center"><div class="spinner" role="img" aria-label="Cargando"></div></div></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="invite.js"></script>
+</body>
+</html>

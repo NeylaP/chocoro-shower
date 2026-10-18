@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chocoro Shower · Panel del anfitrión</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 11l9-7 9 7v10H3z' fill='%2346618f'/%3E%3C/svg%3E">
+<style>
+  /* Login */
+  .login-wrap { min-height: 100vh; min-height: 100dvh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
+  .login-wrap .deco-l { position: absolute; left: -90px; bottom: -90px; width: 320px; }
+  .login-wrap .deco-r { position: absolute; right: 0; top: 0; width: 260px; transform: rotate(180deg); }
+  .login-card { position: relative; width: 100%; max-width: 400px; padding: 36px 30px; display: flex; flex-direction: column; gap: 20px; border-radius: 28px; }
+  .login-card header { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .login-card h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -.5px; }
+  .login-card p { margin: 0; color: var(--body); font-size: 15px; }
+
+  /* Panel */
+  .shell { min-height: 100vh; display: flex; flex-wrap: wrap; align-items: stretch; }
+  .side { flex: 1 1 220px; max-width: 100%; background: #fff; padding: 24px 16px; display: flex; flex-direction: column; gap: 22px; border-right: 1px solid #eceae5; }
+  @media (min-width: 900px) { .side { flex: 0 0 250px; position: sticky; top: 0; height: 100vh; } }
+  @media (max-width: 899px) { .side { flex-basis: 100%; gap: 14px; padding: 16px; } .side .account { display: none; } }
+  .brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+  .brand .icon-circle { width: 44px; height: 44px; background: var(--peach); color: var(--ink); }
+  .brand b { display: block; font-size: 17px; font-weight: 800; }
+  .brand span { font-size: 13px; color: var(--muted); }
+  .nav { display: flex; flex-direction: column; gap: 6px; }
+  @media (max-width: 899px) { .nav { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } .nav .label-caps { display: none; } .nav-btn { justify-content: center; padding: 0 8px; gap: 8px; } }
+  @media (max-width: 520px) { .nav .nav-btn { font-size: 13.5px; gap: 6px; padding: 0 4px; } .nav .nav-btn .badge, .nav .nav-btn svg { display: none; } }
+  .nav-btn { min-height: 48px; border: 0; border-radius: 14px; background: transparent; color: var(--body); padding: 0 12px; display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 700; cursor: pointer; text-align: left; text-decoration: none; }
+  .nav-btn:hover { color: var(--ink); background: #f7f5f1; }
+  .nav-btn[aria-current="page"] { background: var(--accent-soft); color: var(--ink); }
+  .nav-btn .badge { margin-left: auto; min-width: 26px; height: 22px; border-radius: 999px; background: #f2f0ec; font-size: 12px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+  .nav-btn[aria-current="page"] .badge { background: #fff; }
+  .account { margin-top: auto; background: var(--bg); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+  .account b { word-break: break-all; }
+  .out-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; border: 0; background: transparent; color: var(--accent); font-weight: 700; cursor: pointer; padding: 0; }
+  .out-btn.mobile-out { display: none; }
+  @media (max-width: 899px) { .out-btn.mobile-out { display: inline-flex; } }
+
+  .main { flex: 999 1 560px; min-width: 0; padding: 28px 28px 48px; display: flex; flex-direction: column; gap: 22px; }
+  @media (max-width: 600px) { .main { padding: 20px 14px 40px; } }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 14px; }
+  .head h1 { margin: 0 0 4px; font-size: 30px; font-weight: 800; letter-spacing: -.5px; }
+  .head p { margin: 0; font-size: 15px; color: var(--body); }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stat { border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 700; }
+  .s-green { background: var(--sage-soft); color: #3d5a46; }
+  .s-peach { background: var(--peach); color: #7a4e33; }
+  .s-gray { background: #eceae5; color: #5f5c56; }
+  .s-blue { background: var(--accent-soft); color: #34507d; }
+  .cols { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+  .form-card { flex: 1 1 280px; padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+  @media (min-width: 1100px) { .form-card { position: sticky; top: 24px; } }
+  .form-card h2, .list-card h2 { margin: 0; font-size: 18px; font-weight: 800; }
+  .list-card { flex: 999 1 460px; min-width: 0; padding: 20px 0 8px; display: flex; flex-direction: column; gap: 12px; }
+  .toolbar { padding: 0 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .toolbar .input { flex: 1 1 200px; height: 42px; border-radius: 999px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filter { height: 36px; border-radius: 999px; border: 1.5px solid #e1e5ec; background: #fff; padding: 0 12px; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .table { overflow-x: auto; }
+  .trow { display: grid; gap: 12px; align-items: center; padding: 10px 20px; border-bottom: 1px solid var(--line-soft); min-width: 640px; }
+  .trow.th { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; color: var(--muted); border-bottom-color: #eceae5; padding-top: 6px; padding-bottom: 8px; }
+  .g-cols { grid-template-columns: minmax(130px,1.2fr) 104px minmax(100px,1fr) 190px 44px; }
+  .i-cols { grid-template-columns: minmax(170px,1.6fr) minmax(110px,1fr) minmax(110px,1.4fr) 128px 44px; }
+  @media (max-width: 700px) {
+    .trow { min-width: 0; padding: 14px 16px; row-gap: 10px; }
+    .trow.th { display: none; }
+    .g-cols { grid-template-columns: minmax(0,1fr) auto 44px; grid-template-areas: "who status del" "choco choco choco" "link link link"; }
+    .i-cols { grid-template-columns: minmax(0,1fr) auto 44px; grid-template-areas: "who step del" "bar bar bar" "names names names"; }
+    .c-who { grid-area: who; } .c-status { grid-area: status; } .c-choco { grid-area: choco; } .c-link { grid-area: link; }
+    .c-del { grid-area: del; } .c-bar { grid-area: bar; } .c-names { grid-area: names; } .c-step { grid-area: step; }
+    .c-choco::before { content: "Su chócoro: "; color: var(--muted); }
+    .c-names::before { content: "Lo llevan: "; color: var(--muted); }
+  }
+  .who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .avatar { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .who b { display: block; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .who small { font-size: 12px; color: var(--muted); }
+  .status { justify-self: start; border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+  .linkbox { display: flex; gap: 6px; align-items: center; min-width: 0; }
+  .linkbox code { display: none; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: inherit; font-size: 13px; color: var(--body); background: var(--bg); border-radius: 10px; padding: 7px 10px; }
+  .mini { height: 34px; border-radius: 999px; border: 1.5px solid var(--accent); background: #fff; color: var(--accent); padding: 0 12px; font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .mini.wa { border-color: #3d7a55; color: #2f6343; }
+  .trash { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: #8b8780; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .trash:hover { background: #fbeceb; color: var(--danger); }
+  .bar { height: 8px; border-radius: 999px; background: #eceae5; overflow: hidden; }
+  .bar i { display: block; height: 8px; border-radius: 999px; background: var(--heart); }
+  .bar.full i { background: #8fa596; }
+  .stepper { display: flex; align-items: center; gap: 6px; }
+  .step { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #e1e5ec; background: #fff; font-size: 18px; cursor: pointer; }
+  .step:disabled { opacity: .4; cursor: not-allowed; }
+  .stepper.big .step { width: 46px; height: 46px; font-size: 22px; }
+  .stepper.big .input { width: 72px; text-align: center; font-size: 18px; font-weight: 800; }
+  .switcher { display: flex; flex-direction: column; gap: 6px; padding: 12px; background: var(--bg); border-radius: 16px; }
+  .switcher select { height: 42px; border-radius: 12px; font-weight: 700; background: #fff; }
+  .switcher small { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+  .role { align-self: flex-start; background: var(--ink); color: #fff; border-radius: 999px; padding: 3px 10px; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip-mail { display: inline-flex; align-items: center; background: var(--accent-soft); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; font-weight: 600; max-width: 100%; }
+  .chip-mail span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .empty { padding: 28px 20px; text-align: center; font-size: 14px; color: var(--muted); }
+  .muted { color: #8b8780; }
+  .list-card { flex: 1 1 100%; }
+  .toolbar .btn { min-height: 42px; padding: 0 18px; font-size: 14px; margin-left: auto; }
+  .acts { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
+  .e-cols { grid-template-columns: minmax(150px,1.3fr) minmax(150px,1.2fr) minmax(140px,1.3fr) minmax(130px,1.2fr) 70px 196px; }
+  .h-cols { grid-template-columns: minmax(200px,1.4fr) minmax(200px,2fr) 210px; }
+  .trow b.t { font-size: 15px; display: block; }
+  .trow small.t { font-size: 12px; color: var(--muted); }
+  @media (max-width: 700px) {
+    .e-cols { grid-template-columns: minmax(0,1fr); grid-template-areas: "who" "when" "place" "hosts" "count" "acts"; }
+    .h-cols { grid-template-columns: minmax(0,1fr); grid-template-areas: "who" "evs" "acts"; }
+    .c-when { grid-area: when; } .c-place { grid-area: place; } .c-hosts { grid-area: hosts; } .c-count { grid-area: count; }
+    .c-evs { grid-area: evs; } .c-acts { grid-area: acts; justify-content: flex-start; }
+    .c-when::before { content: "Cuándo: "; color: var(--muted); } .c-place::before { content: "Dónde: "; color: var(--muted); }
+    .c-count::before { content: "Invitados: "; color: var(--muted); }
+    .toolbar .btn { margin-left: 0; width: 100%; }
+  }
+
+  /* Modales */
+  dialog.modal { border: 0; padding: 0; border-radius: 24px; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); box-shadow: 0 24px 60px rgba(30,45,77,.25); color: var(--ink); background: #fff; overflow: hidden; }
+  dialog.modal[open] { display: flex; flex-direction: column; }
+  dialog.modal::backdrop { background: rgba(30,45,77,.45); }
+  .modal form { display: flex; flex-direction: column; min-height: 0; max-height: calc(100dvh - 24px); }
+  .modal header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 22px 12px; }
+  .modal header h2 { margin: 0; font-size: 21px; font-weight: 800; }
+  .modal .x { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--bg); cursor: pointer; font-size: 22px; line-height: 1; color: var(--ink); flex-shrink: 0; }
+  .modal .body { padding: 6px 22px 18px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+  .modal footer { display: flex; gap: 10px; justify-content: flex-end; padding: 14px 22px 20px; border-top: 1px solid var(--line-soft); flex-wrap: wrap; }
+  .modal footer .btn { min-height: 46px; }
+  @media (max-width: 520px) { .modal footer .btn { flex: 1; } .row2 { grid-template-columns: minmax(0,1fr); } }
+  .checks { display: flex; flex-direction: column; gap: 4px; max-height: 220px; overflow-y: auto; border: 1.5px solid #e1e5ec; border-radius: 14px; padding: 6px; background: #fbfaf8; }
+  .checks label { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px; border-radius: 10px; cursor: pointer; font-size: 14px; font-weight: 600; }
+  .checks label:hover { background: #fff; }
+  .checks input { width: 18px; height: 18px; accent-color: var(--accent); flex-shrink: 0; }
+  .checks small { font-weight: 400; color: var(--muted); margin-left: auto; text-align: right; }
+  .pw-row { display: flex; gap: 8px; }
+  .pw-row .input { flex: 1; min-width: 0; }
+  .pw-row .btn { min-height: 46px; padding: 0 14px; font-size: 13px; }
+  .creds { background: var(--sage-soft); border-radius: 16px; padding: 14px 16px; font-size: 14px; line-height: 1.6; color: #2f4a37; word-break: break-all; }
+</style>
+</head>
+<body>
+<div id="demo" class="demo-banner" hidden></div>
+
+<section id="login" class="login-wrap" hidden>
+  <svg class="deco-l" aria-hidden="true" viewBox="0 0 150 150"><path d="M10 30 C50 10 80 50 110 70 C140 90 150 130 120 150 L0 150 L0 40 Z" fill="#dfe6f1"/></svg>
+  <svg class="deco-r" aria-hidden="true" viewBox="0 0 110 130"><path d="M110 0 C70 10 40 40 30 80 C25 105 30 120 40 130 L110 130 Z" fill="#f5e9df"/></svg>
+  <form class="card login-card" id="loginForm" novalidate>
+    <header>
+      <svg role="img" aria-label="Chocoro Shower" width="84" height="76" viewBox="0 0 128 120"><path d="M30 40 C40 14 90 10 112 30 C130 48 122 86 100 98 C76 110 34 104 22 84 C14 70 22 54 30 40 Z" fill="#f5e9df"/><g fill="none" stroke="#1e2d4d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 56 L62 22 L106 56"/><path d="M86 40 V27 H95 V47"/><path d="M28 49 V100 M96 49 V100"/><path d="M54 100 V80 H70 V100"/><path d="M12 102 C40 100 90 100 120 103"/></g><path d="M55 55 C55 50.5 60.5 49.5 62 53.5 C63.5 49.5 69 50.5 69 55 C69 60 62 64 62 64 C62 64 55 60 55 55 Z" fill="#7b94c4"/></svg>
+      <span class="label-caps" style="letter-spacing:2px">Chocoro Shower</span>
+      <h1>Panel del anfitrión</h1>
+      <p>Ingresa con el correo y la contraseña que te dio el administrador.</p>
+    </header>
+    <label class="field">Correo<input class="input" type="email" name="email" autocomplete="email" required></label>
+    <label class="field">Contraseña<input class="input" type="password" name="password" autocomplete="current-password" required></label>
+    <span class="error" id="loginError" role="alert"></span>
+    <button class="btn btn-primary" type="submit" id="loginBtn">Entrar</button>
+  </form>
+</section>
+
+<div id="panel" class="shell" hidden>
+  <nav class="side" aria-label="Módulos">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+      <div class="brand"><span class="icon-circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span><div><b>Chocoro Shower</b><span>Panel del anfitrión</span></div></div>
+      <button class="out-btn mobile-out" data-act="logout">Salir</button>
+    </div>
+    <div class="switcher" id="switcher" hidden>
+      <span class="role" id="roleBadge" hidden>SUPER ADMIN</span>
+      <label class="label-caps" for="eventSelect">Evento</label>
+      <select class="input" id="eventSelect"></select>
+      <small id="eventSummary"></small>
+    </div>
+    <div class="nav">
+      <span class="label-caps" style="padding:0 12px">Mi evento</span>
+      <a class="nav-btn" href="#invitados" data-mod="invitados"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.3 0 4 1.4 4.6 4"/></svg>Invitados<span class="badge" id="cGuests">0</span></a>
+      <a class="nav-btn" href="#chocoros" data-mod="chocoros"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h16v4a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z"/><path d="M2 10h20M9 6V4M15 6V4"/></svg>Chócoros<span class="badge" id="cItems">0</span></a>
+      <span class="label-caps super-only" style="padding:10px 12px 0" hidden>Administración</span>
+      <a class="nav-btn super-only" href="#eventos" data-mod="eventos" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Eventos<span class="badge" id="cEvents">0</span></a>
+      <a class="nav-btn super-only" href="#anfitriones" data-mod="anfitriones" hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Anfitriones<span class="badge" id="cHosts">0</span></a>
+    </div>
+    <div class="account">
+      <span class="label-caps">Sesión</span>
+      <b id="who"></b>
+      <button class="out-btn" data-act="logout"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg>Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section id="mod-none" hidden>
+      <div class="card" style="padding:32px;max-width:520px;display:flex;flex-direction:column;gap:10px">
+        <h1 style="margin:0;font-size:24px;font-weight:800">Aún no tienes eventos</h1>
+        <p style="margin:0;color:var(--body);line-height:1.5">Tu cuenta todavía no está asignada a ningún Chocoro Shower. Pídele al administrador que te agregue.</p>
+      </div>
+    </section>
+
+    <!-- Invitados -->
+    <section id="mod-invitados" hidden>
+      <div class="head">
+        <div><h1>Invitados</h1><p>Cada invitado recibe su propio enlace. Al abrirlo, la invitación ya sabe quién es.</p></div>
+        <div class="stats" id="gStats"></div>
+      </div>
+      <div class="card list-card" style="margin-top:22px">
+        <div class="toolbar">
+          <input class="input" type="search" id="gSearch" placeholder="Buscar invitado" aria-label="Buscar invitado">
+          <div class="filters" id="gFilters"></div>
+          <button class="btn btn-primary" type="button" data-open="dlgGuest">+ Agregar invitado</button>
+        </div>
+        <div class="table" id="gTable"></div>
+      </div>
+    </section>
+
+    <!-- Chócoros -->
+    <section id="mod-chocoros" hidden>
+      <div class="head">
+        <div><h1>Chócoros</h1><p>Lo que los invitados pueden traer. Define cuántas personas pueden llevar cada cosa.</p></div>
+        <div class="stats" id="iStats"></div>
+      </div>
+      <div class="card list-card" style="margin-top:22px">
+        <div class="toolbar">
+          <input class="input" type="search" id="iSearch" placeholder="Buscar chócoro" aria-label="Buscar chócoro">
+          <button class="btn btn-primary" type="button" data-open="dlgItem">+ Agregar chócoro</button>
+        </div>
+        <div class="table" id="iTable"></div>
+      </div>
+    </section>
+
+    <!-- Eventos (super admin) -->
+    <section id="mod-eventos" hidden>
+      <div class="head">
+        <div><h1>Eventos</h1><p>Cada Chocoro Shower con su fecha, dirección y anfitriones.</p></div>
+      </div>
+      <div class="card list-card" style="margin-top:22px">
+        <div class="toolbar">
+          <input class="input" type="search" id="eSearch" placeholder="Buscar evento" aria-label="Buscar evento">
+          <button class="btn btn-primary" type="button" id="newEventBtn">+ Nuevo evento</button>
+        </div>
+        <div class="table" id="eTable"></div>
+      </div>
+    </section>
+
+    <!-- Anfitriones (super admin) -->
+    <section id="mod-anfitriones" hidden>
+      <div class="head">
+        <div><h1>Anfitriones</h1><p>Las personas que pueden entrar al panel. Tú les pones la contraseña y eliges sus eventos.</p></div>
+      </div>
+      <div class="card list-card" style="margin-top:22px">
+        <div class="toolbar">
+          <input class="input" type="search" id="hSearch" placeholder="Buscar anfitrión" aria-label="Buscar anfitrión">
+          <button class="btn btn-primary" type="button" id="newHostBtn">+ Nuevo anfitrión</button>
+        </div>
+        <div class="table" id="hTable"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Modal: invitado -->
+<dialog class="modal" id="dlgGuest" aria-labelledby="dlgGuestTitle">
+  <form id="guestForm" novalidate>
+    <header><h2 id="dlgGuestTitle">Nuevo invitado</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+    <div class="body">
+      <label class="field">Nombre<input class="input" name="name" maxlength="60" placeholder="Ej. Mariana" required></label>
+      <label class="field">WhatsApp <span class="hint">Opcional, para enviarle el enlace</span><input class="input" name="phone" type="tel" inputmode="tel" maxlength="20" placeholder="300 000 0000"></label>
+      <span class="hint" style="font-size:13px;color:var(--muted)">El enlace personal se genera solo al guardarlo.</span>
+      <span class="error" id="guestError" role="alert"></span>
+    </div>
+    <footer><button type="button" class="btn btn-outline" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Agregar invitado</button></footer>
+  </form>
+</dialog>
+
+<!-- Modal: chócoro -->
+<dialog class="modal" id="dlgItem" aria-labelledby="dlgItemTitle">
+  <form id="itemForm" novalidate>
+    <header><h2 id="dlgItemTitle">Nuevo chócoro</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+    <div class="body">
+      <label class="field">Nombre<input class="input" name="name" maxlength="80" placeholder="Ej. Juego de toallas" required></label>
+      <label class="field">Categoría
+        <select class="input" name="category">
+          <option>Cocina</option><option>Comedor</option><option>Baño</option><option>Habitación</option><option>Aseo</option><option>Otro</option>
+        </select>
+      </label>
+      <div class="field">
+        <span id="capLabel">¿Cuántas personas lo pueden llevar?</span>
+        <div class="stepper big">
+          <button type="button" class="step" data-cap="-1" aria-label="Menos">−</button>
+          <input class="input" type="number" name="capacity" min="1" max="50" value="1" aria-labelledby="capLabel">
+          <button type="button" class="step" data-cap="1" aria-label="Más">+</button>
+        </div>
+        <span class="hint" id="capHint">Solo una persona lo podrá elegir.</span>
+      </div>
+      <span class="error" id="itemError" role="alert"></span>
+    </div>
+    <footer><button type="button" class="btn btn-outline" data-close>Cancelar</button><button type="submit" class="btn btn-primary">Agregar chócoro</button></footer>
+  </form>
+</dialog>
+
+<!-- Modal: evento -->
+<dialog class="modal" id="dlgEvent" aria-labelledby="dlgEventTitle">
+  <form id="eventForm" novalidate>
+    <header><h2 id="dlgEventTitle">Nuevo evento</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+    <div class="body">
+      <label class="field">Nombre del evento <span class="hint">Solo lo ven los administradores</span><input class="input" name="evname" maxlength="80" placeholder="Ej. Casa de Ana y Luis" required></label>
+      <label class="field">Anfitriones en la invitación <span class="hint">Aparece como "Te esperan"</span><input class="input" name="hosts_display" maxlength="80" placeholder="Ej. Ana y Luis"></label>
+      <div class="row2">
+        <label class="field">Fecha<input class="input" type="date" name="event_date"></label>
+        <label class="field">Hora<input class="input" type="time" name="event_time"></label>
+      </div>
+      <label class="field">Dirección<input class="input" name="place" maxlength="120" placeholder="Ej. Cra 50 # 80-12, El Prado"></label>
+      <label class="field">Enlace de Google Maps <span class="hint">Opcional</span><input class="input" type="url" name="maps_url" placeholder="https://maps.app.goo.gl/..."></label>
+      <label class="field">Confirmar antes del<input class="input" type="date" name="deadline"></label>
+      <div class="field">
+        <span id="evHostsLabel">Anfitriones con acceso <span class="hint">Pueden entrar al panel de este evento</span></span>
+        <div class="checks" id="evHostChecks" role="group" aria-labelledby="evHostsLabel"></div>
+      </div>
+      <span class="error" id="eventError" role="alert"></span>
+    </div>
+    <footer><button type="button" class="btn btn-outline" data-close>Cancelar</button><button type="submit" class="btn btn-primary" id="eventSave">Crear evento</button></footer>
+  </form>
+</dialog>
+
+<!-- Modal: anfitrión -->
+<dialog class="modal" id="dlgHost" aria-labelledby="dlgHostTitle">
+  <form id="hostForm" novalidate>
+    <header><h2 id="dlgHostTitle">Nuevo anfitrión</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+    <div class="body" id="hostBody">
+      <label class="field">Nombre<input class="input" name="hname" maxlength="60" placeholder="Ej. Ana Martínez" required></label>
+      <label class="field">Correo <span class="hint" id="emailHint">Con este correo entrará al panel</span><input class="input" type="email" name="hemail" maxlength="120" placeholder="ana@correo.com" autocomplete="off" required></label>
+      <div class="field">
+        <span id="pwLabel">Contraseña</span>
+        <div class="pw-row">
+          <input class="input" type="password" name="hpass" minlength="8" autocomplete="new-password" aria-labelledby="pwLabel">
+          <button type="button" class="btn btn-outline" id="pwShow">Ver</button>
+          <button type="button" class="btn btn-outline" id="pwGen">Generar</button>
+        </div>
+        <span class="hint" id="pwHint">Mínimo 8 caracteres.</span>
+      </div>
+      <div class="field">
+        <span id="hEventsLabel">Eventos que puede administrar</span>
+        <div class="checks" id="hostEventChecks" role="group" aria-labelledby="hEventsLabel"></div>
+      </div>
+      <span class="error" id="hostError" role="alert"></span>
+    </div>
+    <div class="body" id="hostDone" hidden>
+      <p style="margin:0;font-size:15px;line-height:1.5;color:var(--body)">Listo. Compártele estos datos para que entre al panel:</p>
+      <div class="creds" id="credsText"></div>
+      <button type="button" class="btn btn-outline" id="copyCreds">Copiar datos de acceso</button>
+    </div>
+    <footer id="hostFooter"><button type="button" class="btn btn-outline" data-close>Cancelar</button><button type="submit" class="btn btn-primary" id="hostSave">Crear anfitrión</button></footer>
+    <footer id="hostDoneFooter" hidden><button type="button" class="btn btn-primary" data-close>Cerrar</button></footer>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
